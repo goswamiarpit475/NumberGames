@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, StatusBar, TouchableOpacity, FlatList, TouchableHighlight, ImageBackground, ScrollView } from 'react-native';
+import { View, Text,StyleSheet, StatusBar, TouchableOpacity, FlatList, TouchableHighlight, ImageBackground, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LearnNumbers from './src/screens/numbers/LearnNumbers';
@@ -16,7 +16,7 @@ function HomeScreen({navigation}) {
       <ImageBackground style={{height:200,width:200,justifyContent:'center',alignItems:'center',alignSelf:'center',marginHorizontal:10}} imageStyle= 
       {{opacity:0.8}} resizeMode="contain" source={require('./src/assets/images/cloud/cloud-red.png')}>
       <TouchableOpacity onPress={()=>{navigation.navigate(item.navigationPath)}}>
-           <Text style={{fontSize: 25, color: 'white', fontWeight: 'bold'}}>{item.title}</Text>
+           <Text style={styles.menuText}>{item.title}</Text>
         </TouchableOpacity>
       </ImageBackground>
     )
@@ -57,5 +57,10 @@ function App() {
     </NavigationContainer>
   );
 }
-
+const styles = StyleSheet.create({
+  menuText: {
+    fontSize: 23, color: 'yellow', fontWeight: 'bold',fontFamily:'serif',
+    flexWrap: 'wrap'
+  },
+});
 export default App;
