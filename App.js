@@ -3,6 +3,7 @@ import { View, Text,StyleSheet, StatusBar, TouchableOpacity, FlatList, Touchable
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LearnNumbers from './src/screens/numbers/LearnNumbers';
+import NumberQuiz from './src/screens/numbers/NumberQuiz';
 import { Button } from 'react-native-paper';
 
 
@@ -31,7 +32,8 @@ function HomeScreen({navigation}) {
     
     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
       <FlatList horizontal 
-        data={[{title: 'Learn Number', key: 'item1',navigationPath:'LearnNumbers'}]}
+        data={[{title: 'Learn Number', key: 'item1',navigationPath:'LearnNumbers'},
+        {title: 'Number Quiz', key: 'item2',navigationPath:'NumberQuiz'}]}
         renderItem={({item}) => <ItemMenu item={item} />}
       />
     </View>
@@ -53,6 +55,7 @@ function App() {
       <Stack.Navigator screenOptions={{headerShown:false}}>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="LearnNumbers" component={LearnNumbers} />
+        <Stack.Screen name="NumberQuiz" component={NumberQuiz} />
       </Stack.Navigator>
     </NavigationContainer>
   );
