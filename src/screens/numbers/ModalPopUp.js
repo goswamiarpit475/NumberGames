@@ -1,35 +1,32 @@
 import React, {useState} from 'react';
-import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
-
-const ModalPopUp = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+import {Alert, StyleSheet, Text, Pressable, View} from 'react-native';
+import { Portal,Modal } from 'react-native-paper';
+const ModalPopUp = ({visible,setVisible}) => {
+  
   return (
-    <View style={styles.centeredView}>
+    <Portal>
+    
       <Modal
         animationType="slide"
         transparent={true}
-        visible={modalVisible}
+        visible={visible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
+          //Alert.alert('Modal has been closed.');
+          setVisible(false);
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Hello World!</Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}>
+              onPress={() => setVisible(false)}>
               <Text style={styles.textStyle}>Hide Modal</Text>
             </Pressable>
           </View>
         </View>
       </Modal>
-      <Pressable
-        style={[styles.button, styles.buttonOpen]}
-        onPress={() => setModalVisible(true)}>
-        <Text style={styles.textStyle}>Show Modal</Text>
-      </Pressable>
-    </View>
+    
+    </Portal>
   );
 };
 

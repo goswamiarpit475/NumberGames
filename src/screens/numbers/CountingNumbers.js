@@ -7,12 +7,9 @@ import * as Font from 'expo-font';
 import { Audio } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from 'react-native-paper';
-import ModalPopUp from './ModalPopUp';
-import CustomDialog from './CustomDialog';
-
-export default function NumberQuiz({navigation}) {
+import { FlatList } from 'react-native-web';
+export default function CountingNumbers({navigation}) {
   const [sound, setSound] = React.useState();
-  const [visible, setVisible] = React.useState(visible);
   // const [fontsLoaded] = useFonts({
   //   'Mouse-Font': require('./assets/fonts/Mousie.ttf'),
   // });
@@ -24,56 +21,11 @@ export default function NumberQuiz({navigation}) {
     ['#2bc0e4', '#eaecc6'], ['#4776e6', '#8e54e9'], ['#ff8008', '#ffc837'], ['#1d976c', '#93f9b9'], ['#eb3349', '#f45c43'], ['#1fa2ff', '#12d8fa', '#a6ffcb'], ['#ff512f', '#f09819']
   ];
   const maxNumber = 10;
- var  nextNumberToBePlayed=1;
-
   async function playSound(arg) {
-    if(isCorrectNumberPlayed(arg)){
         await sound[arg-1].playAsync();
         sound[arg-1].setPositionAsync(0);
-        if(arg==1){
-          //alert('Congratulations');
-          setVisible(true)
-          setTimeout(() => {
-            setVisible(false);
-                   }, 3000);
-        }
-    }
-    else{
-      console.log('wrong number pressed'+arg);
-    }
   }
-
-  function isCorrectNumberPlayed(numberPlayed){
-    if(numberPlayed==nextNumberToBePlayed)
-    {
-      nextNumberToBePlayed++;
-      return true;
-    }
-    return false;
-
-  }
-  const NumberItem=({})=>{
-    const randNumber=Math.floor(Math.random() * maxNumber);
-    for (var array=[],i=0;i<maxNumber;++i) array[i]=i;
-    var tmp, current, top = array.length;
-    if(top) while(--top) {
-    current = Math.floor(Math.random() * (top + 1));
-    tmp = array[current];
-    array[current] = array[top];
-    array[top] = tmp;
-  }
-    return(
-
-        array.map((x, i) =>
-          <TouchableOpacity onPress={() => playSound(x+ 1)} style={styles.myCard}>
-            <LinearGradient colors={colorArray[i%12]} style={styles.CircleShape}>
-              <Text style={styles.numberText}>{(x+ 1)}
-              </Text>
-            </LinearGradient>
-          </TouchableOpacity>
-          )
-    )
-  }
+  
   React.useEffect(() => {
     const loadFiles = async () => {
       console.log('loading Sound');
@@ -89,10 +41,8 @@ export default function NumberQuiz({navigation}) {
       const { sound: sound10 } = await Audio.Sound.createAsync(require('../../assets/voices/number_voice/10.mp3'));
       //setSound({ s1: sound1, s2: sound2, s3: sound3, s4: sound4, s5: sound5, s6: sound6, s7: sound7, s8: sound8, s9: sound9, s10: sound10 });
     setSound([sound1, sound2, sound3, sound4, sound5, sound6, sound7, sound8, sound9,sound10 ]);
-    
     }
     loadFiles();
-    
   }, []);
 
   React.useEffect(() => {
@@ -112,35 +62,21 @@ export default function NumberQuiz({navigation}) {
   }, [sound]);
 
   return (
-    <>{//visible&&<ModalPopUp visible={visible} setVisible={setVisible}/>
-    }
-      {visible && 
-      <CustomDialog visible={visible} setVisible={setVisible} textToShow="Congratulations"/>
-      }
-      <View
-        style={[
-          styles.container,
-          {
-            // Try setting `flexDirection` to `"row"`.
-            flexDirection: 'column',
-          },
-        ]}>
+    <>
+      <View style={{flex:4,flexDirection:'row'}}>
+      <View style={{flex:1,backgroundColor:'red'}}>
 
-        <ImageBackground style={{flex:1}} resizeMode="cover" source={require('../../assets/images/gif/108109-moving-grass.gif')}>
-        <Button onPress={()=>navigation.goBack()} style={{alignSelf:"flex-start"}}
-        icon={({ size, color }) => (
-          <Image
-            source={require('../../assets/images/back-icon.png')}
-            style={{ width: 50, height: 50,marginTop:15 }}
-          />
-        )}
-        />
+      </View>
+      <View style={{flex:2,backgroundColor:'yellow'}}>
+
+      </View>
+      </View>
+      <View style={{flex:1,backgroundColor:'blue',flexDirection:'row'}}>
         
-        <View style={{ flex: 4, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center',alignContent:'center' }}>
-          <NumberItem></NumberItem>
-        </View>
-
-        </ImageBackground>
+          <View><Text>1</Text></View>
+          <View><Text>2</Text></View>
+          <View><Text>3</Text></View>
+        
       </View>
     </>
   );
