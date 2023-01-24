@@ -9,7 +9,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from 'react-native-paper';
 export default function WriteNumbers({navigation}) {
   const [sound, setSound] = React.useState();
-  const[numberPressed,setNumberPressed]=React.useState(0);
+  const[numberPressed,setNumberPressed]=React.useState(1);
   // const [fontsLoaded] = useFonts({
   //   'Mouse-Font': require('./assets/fonts/Mousie.ttf'),
   // });
@@ -95,13 +95,12 @@ export default function WriteNumbers({navigation}) {
         />
       <View style={{flex:3,flexDirection:'row'}}>
           <View style={{flex:2}}><Text style={styles.bigNumberText}>{numberPressed}</Text></View>
-          <View style={{flex:3,flexDirection:'row',flexWrap:'wrap',backgroundColor:'white'}}>
+          <View style={{flex:3,flexDirection:'row',flexWrap:'wrap',backgroundColor:'white', justifyContent: 'center',alignContent:'center' }}>
           {[...Array(numberPressed)].map((x, i) =>
             
-            <View>
+            
               <Image source={require('../../assets/images/numbers/reddot-removebg-preview.png')}/>
-            </View>
-          )}
+                     )}
           </View>
       </View>
       <View style={{flex:1,backgroundColor:'red'}}>
