@@ -10,6 +10,7 @@ import { Button } from 'react-native-paper';
 import ModalPopUp from './ModalPopUp';
 
 export default function NumberQuiz({navigation}) {
+  
   const [sound, setSound] = React.useState();
   // const [fontsLoaded] = useFonts({
   //   'Mouse-Font': require('./assets/fonts/Mousie.ttf'),
@@ -114,8 +115,8 @@ export default function NumberQuiz({navigation}) {
             flexDirection: 'column',
           },
         ]}>
-
-        <ImageBackground style={{flex:1}} resizeMode="cover" source={require('../../assets/images/gif/108109-moving-grass.gif')}>
+        <View style={{flex:1}}>
+        <LinearGradient colors={colorArray[2]} style={{flex:1}}>
         <Button onPress={()=>navigation.goBack()} style={{alignSelf:"flex-start"}}
         icon={({ size, color }) => (
           <Image
@@ -129,7 +130,7 @@ export default function NumberQuiz({navigation}) {
           <NumberItem></NumberItem>
         </View>
 
-        </ImageBackground>
+        </LinearGradient></View>
       </View>
     </>
   );

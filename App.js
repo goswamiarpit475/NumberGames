@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LearnNumbers from './src/screens/numbers/LearnNumbers';
 import NumberQuiz from './src/screens/numbers/NumberQuiz';
+import WriteNumbers from './src/screens/numbers/WriteNumbers';
 import { Button } from 'react-native-paper';
 
 
@@ -33,7 +34,8 @@ function HomeScreen({navigation}) {
     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
       <FlatList horizontal 
         data={[{title: 'Learn Number', key: 'item1',navigationPath:'LearnNumbers'},
-        {title: 'Number Quiz', key: 'item2',navigationPath:'NumberQuiz'}]}
+        {title: 'Number Quiz', key: 'item2',navigationPath:'NumberQuiz'},
+        {title: 'Write Numbers', key: 'item4',navigationPath:'WriteNumbers'}]}
         renderItem={({item}) => <ItemMenu item={item} />}
       />
     </View>
@@ -50,12 +52,19 @@ function HomeScreen({navigation}) {
 const Stack = createNativeStackNavigator();
 
 function App() {
+  React.useEffect(() => {
+    StatusBar.setBackgroundColor('#FF573300'); 
+    StatusBar.setTranslucent(true)
+   }, []);
+
+  
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown:false}}>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="LearnNumbers" component={LearnNumbers} />
         <Stack.Screen name="NumberQuiz" component={NumberQuiz} />
+        <Stack.Screen name="WriteNumbers" component={WriteNumbers} />
       </Stack.Navigator>
     </NavigationContainer>
   );

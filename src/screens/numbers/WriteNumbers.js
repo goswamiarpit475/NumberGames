@@ -1,28 +1,39 @@
 //import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
-import { TouchableOpacity,StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
+import { TouchableOpacity,StyleSheet, Text, View, Image, ImageBackground, ScrollView } from 'react-native';
 
 import * as Font from 'expo-font';
 
 import { Audio } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from 'react-native-paper';
-export default function LearnNumbers({navigation}) {
+export default function WriteNumbers({navigation}) {
   const [sound, setSound] = React.useState();
+  const[numberPressed,setNumberPressed]=React.useState(0);
   // const [fontsLoaded] = useFonts({
   //   'Mouse-Font': require('./assets/fonts/Mousie.ttf'),
   // });
   const colorArray = [
-    ['#ff4da9', '#ffff66'], ['#ee9ca7', '#ffdde1'], ['#36d1dc', '#5b86e5'],
+    ['#ff4da9', '#ffff66'], 
+    ['#ee9ca7', '#ffdde1'], 
+    ['#36d1dc', '#5b86e5'],
     ['#1cd8d2', '#93edc7'],
     ['#5c258d', '#4389a2'],
     ['#134e5e', '#71b280'],
-    ['#2bc0e4', '#eaecc6'], ['#4776e6', '#8e54e9'], ['#ff8008', '#ffc837'], ['#1d976c', '#93f9b9'], ['#eb3349', '#f45c43'], ['#1fa2ff', '#12d8fa', '#a6ffcb'], ['#ff512f', '#f09819']
+    ['#2bc0e4', '#eaecc6'], 
+    ['#4776e6', '#8e54e9'], 
+    ['#ff8008', '#ffc837'], 
+    ['#1d976c', '#93f9b9'], 
+    ['#eb3349', '#f45c43'], 
+    ['#1fa2ff', '#12d8fa', '#a6ffcb'], ['#ff512f', '#f09819']
   ];
   const maxNumber = 10;
+  //var numberPressed=0;
   async function playSound(arg) {
         await sound[arg-1].playAsync();
         sound[arg-1].setPositionAsync(0);
+        setNumberPressed(arg);
+        console.log(numberPressed);
   }
   
   React.useEffect(() => {
@@ -82,7 +93,19 @@ export default function LearnNumbers({navigation}) {
           />
         )}
         />
-        <View style={{ flex: 4, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center',alignContent:'center' }}>
+      <View style={{flex:3,flexDirection:'row'}}>
+          <View style={{flex:2}}><Text style={styles.bigNumberText}>{numberPressed}</Text></View>
+          <View style={{flex:3,flexDirection:'row',flexWrap:'wrap',backgroundColor:'white'}}>
+          {[...Array(numberPressed)].map((x, i) =>
+            
+            <View>
+              <Image source={require('../../assets/images/numbers/reddot-removebg-preview.png')}/>
+            </View>
+          )}
+          </View>
+      </View>
+      <View style={{flex:1,backgroundColor:'red'}}>
+        <ScrollView horizontal style={{ flex: 4, flexDirection: 'row',alignContent:'center'}}>
           {[...Array(maxNumber)].map((x, i) =>
             <TouchableOpacity onPress={() => playSound(i + 1)} style={styles.myCard}>
               <LinearGradient colors={colorArray[i%12]} style={styles.CircleShape}>
@@ -91,6 +114,7 @@ export default function LearnNumbers({navigation}) {
               </LinearGradient>
             </TouchableOpacity>
           )}
+        </ScrollView>
         </View>
         </LinearGradient>
         </View>
@@ -104,9 +128,12 @@ const styles = StyleSheet.create({
     flex: 1,
     //padding: 20,
   },
-  myCard: { margin: 20, alignItems: 'center', justifyContent: 'center' },
+  myCard: { margin: 10, alignItems: 'center', justifyContent: 'center' },
   numberText: {
     fontSize: 50, color: 'white', fontWeight: '900'
+  },
+  bigNumberText: {
+    fontSize: 200, color: 'white', fontWeight: '900',alignSelf:'center'
   },
   //grad:{backgroundImage: linearGradient('red', 'yellow')},
   tinyLogo: {
@@ -120,7 +147,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF9800',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 5
+    borderWidth: 4
   },
 });
 
