@@ -7,7 +7,8 @@ import * as Font from 'expo-font';
 import { Audio } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from 'react-native-paper';
-export default function WriteNumbers({navigation}) {
+
+export default function CountNumbers({navigation}) {
   const [sound, setSound] = React.useState();
   const[numberPressed,setNumberPressed]=React.useState(1);
   // const [fontsLoaded] = useFonts({
