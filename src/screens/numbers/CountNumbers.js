@@ -1,29 +1,40 @@
 //import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
-import { TouchableOpacity,StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
+import { TouchableOpacity,StyleSheet, Text, View, Image, ImageBackground, ScrollView } from 'react-native';
 
 import * as Font from 'expo-font';
 
 import { Audio } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from 'react-native-paper';
-import { FlatList } from 'react-native-web';
-export default function CountingNumbers({navigation}) {
+
+export default function CountNumbers({navigation}) {
   const [sound, setSound] = React.useState();
+  const[numberPressed,setNumberPressed]=React.useState(1);
   // const [fontsLoaded] = useFonts({
   //   'Mouse-Font': require('./assets/fonts/Mousie.ttf'),
   // });
   const colorArray = [
-    ['#ff4da9', '#ffff66'], ['#ee9ca7', '#ffdde1'], ['#36d1dc', '#5b86e5'],
+    ['#ff4da9', '#ffff66'], 
+    ['#ee9ca7', '#ffdde1'], 
+    ['#36d1dc', '#5b86e5'],
     ['#1cd8d2', '#93edc7'],
     ['#5c258d', '#4389a2'],
     ['#134e5e', '#71b280'],
-    ['#2bc0e4', '#eaecc6'], ['#4776e6', '#8e54e9'], ['#ff8008', '#ffc837'], ['#1d976c', '#93f9b9'], ['#eb3349', '#f45c43'], ['#1fa2ff', '#12d8fa', '#a6ffcb'], ['#ff512f', '#f09819']
+    ['#2bc0e4', '#eaecc6'], 
+    ['#4776e6', '#8e54e9'], 
+    ['#ff8008', '#ffc837'], 
+    ['#1d976c', '#93f9b9'], 
+    ['#eb3349', '#f45c43'], 
+    ['#1fa2ff', '#12d8fa', '#a6ffcb'], ['#ff512f', '#f09819']
   ];
   const maxNumber = 10;
+  //var numberPressed=0;
   async function playSound(arg) {
         await sound[arg-1].playAsync();
         sound[arg-1].setPositionAsync(0);
+        setNumberPressed(arg);
+        console.log(numberPressed);
   }
   
   React.useEffect(() => {
@@ -63,20 +74,50 @@ export default function CountingNumbers({navigation}) {
 
   return (
     <>
-      <View style={{flex:4,flexDirection:'row'}}>
+      <View
+        style={[
+          styles.container,
+          {
+            // Try setting `flexDirection` to `"row"`.
+            flexDirection: 'column',
+          },
+        ]}>
+
+        <View style={{flex:1}}>
+        <LinearGradient colors={colorArray[2]} style={{flex:1}}>
+              
+        <Button onPress={()=>navigation.goBack()} style={{alignSelf:"flex-start"}}
+        icon={({ size, color }) => (
+          <Image
+            source={require('../../assets/images/back-icon.png')}
+            style={{ width: 50, height: 50,marginTop:15 }}
+          />
+        )}
+        />
+      <View style={{flex:3,flexDirection:'row'}}>
+          <View style={{flex:2}}><Text style={styles.bigNumberText}>{numberPressed}</Text></View>
+          <View style={{flex:3,flexDirection:'row',flexWrap:'wrap',backgroundColor:'white', justifyContent: 'center',alignContent:'center' }}>
+          {[...Array(numberPressed)].map((x, i) =>
+            
+            
+              <Image source={require('../../assets/images/numbers/reddot-removebg-preview.png')}/>
+                     )}
+          </View>
+      </View>
       <View style={{flex:1,backgroundColor:'red'}}>
-
-      </View>
-      <View style={{flex:2,backgroundColor:'yellow'}}>
-
-      </View>
-      </View>
-      <View style={{flex:1,backgroundColor:'blue',flexDirection:'row'}}>
-        
-          <View><Text>1</Text></View>
-          <View><Text>2</Text></View>
-          <View><Text>3</Text></View>
-        
+        <ScrollView horizontal style={{ flex: 4, flexDirection: 'row',alignContent:'center'}}>
+          {[...Array(maxNumber)].map((x, i) =>
+            <TouchableOpacity onPress={() => playSound(i + 1)} style={styles.myCard}>
+              <LinearGradient colors={colorArray[i%12]} style={styles.CircleShape}>
+                <Text style={styles.numberText}>{i + 1}
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          )}
+        </ScrollView>
+        </View>
+        </LinearGradient>
+        </View>
       </View>
     </>
   );
@@ -87,9 +128,12 @@ const styles = StyleSheet.create({
     flex: 1,
     //padding: 20,
   },
-  myCard: { margin: 20, alignItems: 'center', justifyContent: 'center' },
+  myCard: { margin: 10, alignItems: 'center', justifyContent: 'center' },
   numberText: {
     fontSize: 50, color: 'white', fontWeight: '900'
+  },
+  bigNumberText: {
+    fontSize: 200, color: 'white', fontWeight: '900',alignSelf:'center'
   },
   //grad:{backgroundImage: linearGradient('red', 'yellow')},
   tinyLogo: {
@@ -103,7 +147,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF9800',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 5
+    borderWidth: 4
   },
 });
 
