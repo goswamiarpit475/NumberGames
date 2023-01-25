@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { View, Text,StyleSheet, StatusBar, TouchableOpacity, FlatList, TouchableHighlight, ImageBackground, ScrollView } from 'react-native';
+import { Image,BackHandler ,View, Text,StyleSheet, StatusBar, TouchableOpacity, FlatList, TouchableHighlight, ImageBackground, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LearnNumbers from './src/screens/numbers/LearnNumbers';
 import NumberQuiz from './src/screens/numbers/NumberQuiz';
 import CountNumbers from './src/screens/numbers/CountNumbers';
+import { Button } from 'react-native-paper';
 
-import { Button, Provider,Portal} from 'react-native-paper';
 
 
 
@@ -30,12 +30,19 @@ function HomeScreen({navigation}) {
     <>
   
   <ImageBackground style={{flex:1}} resizeMode="cover" source={require('./src/assets/images/gif/under-water.gif')}>
-    
+  <Button onPress={()=>BackHandler.exitApp()} style={{alignSelf:"flex-start"}}
+        icon={({ size, color }) => (
+          <Image
+            source={require('./src/assets/images/back-icon.png')}
+            style={{ width: 50, height: 50,marginTop:15 }}
+          />
+        )}
+        />
     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
       <FlatList horizontal 
         data={[{title: 'Learn Number', key: 'item1',navigationPath:'LearnNumbers'},
         {title: 'Number Quiz', key: 'item2',navigationPath:'NumberQuiz'},
-        {title: 'Counting', key: 'item3',navigationPath:'CountNumbers'}]}
+        {title: 'Count Numbers', key: 'item4',navigationPath:'CountNumbers'}]}
         renderItem={({item}) => <ItemMenu item={item} />}
       />
     </View>
@@ -52,17 +59,21 @@ function HomeScreen({navigation}) {
 const Stack = createNativeStackNavigator();
 
 function App() {
+  React.useEffect(() => {
+    StatusBar.setBackgroundColor('#FF573300'); 
+    StatusBar.setTranslucent(true)
+   }, []);
+
+  
   return (
-    <Provider>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown:false}}>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="LearnNumbers" component={LearnNumbers} />
         <Stack.Screen name="NumberQuiz" component={NumberQuiz} />
-        <Stack.Screen name="CountNumbers" component={CountNumbers}/>
+        <Stack.Screen name="CountNumbers" component={CountNumbers} />
       </Stack.Navigator>
     </NavigationContainer>
-    </Provider>
   );
 }
 const styles = StyleSheet.create({

@@ -7,6 +7,7 @@ import * as Font from 'expo-font';
 import { Audio } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from 'react-native-paper';
+import * as Speech from 'expo-speech';
 
 export default function CountNumbers({navigation}) {
   const [sound, setSound] = React.useState();
@@ -30,13 +31,22 @@ export default function CountNumbers({navigation}) {
   ];
   const maxNumber = 10;
   //var numberPressed=0;
-  async function playSound(arg) {
+  async function playSound1(arg) {
         await sound[arg-1].playAsync();
         sound[arg-1].setPositionAsync(0);
         setNumberPressed(arg);
         console.log(numberPressed);
   }
-  
+  async function playSound(arg) {
+    var x=await Speech.getAvailableVoicesAsync()
+    x.forEach(element => {
+      //console.log(element);
+    });
+    console.log(x[0]);
+    await Speech.speak(arg.toString(),{voice:"hi-in-x-hia-network"});
+    setNumberPressed(arg);
+    console.log(numberPressed);
+}
   React.useEffect(() => {
     const loadFiles = async () => {
       console.log('loading Sound');
@@ -94,6 +104,14 @@ export default function CountNumbers({navigation}) {
           />
         )}
         />
+
+      <Button onPress={()=>Speech.speak("1")} style={{alignSelf:"flex-start"}}
+        icon={({ size, color }) => (
+          <Text>HELLO</Text>
+        )}
+        />
+
+
       <View style={{flex:3,flexDirection:'row'}}>
           <View style={{flex:2}}><Text style={styles.bigNumberText}>{numberPressed}</Text></View>
           <View style={{flex:3,flexDirection:'row',flexWrap:'wrap',backgroundColor:'white', justifyContent: 'center',alignContent:'center' }}>
