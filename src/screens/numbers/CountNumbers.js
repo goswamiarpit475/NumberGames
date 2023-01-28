@@ -31,13 +31,13 @@ export default function CountNumbers({navigation}) {
   ];
   const maxNumber = 10;
   //var numberPressed=0;
-  async function playSound1(arg) {
+  async function playSound(arg) {
         await sound[arg-1].playAsync();
         sound[arg-1].setPositionAsync(0);
         setNumberPressed(arg);
         console.log(numberPressed);
   }
-  async function playSound(arg) {
+  async function playSound1(arg) {
     var x=await Speech.getAvailableVoicesAsync()
     x.forEach(element => {
       //console.log(element);
@@ -84,6 +84,7 @@ export default function CountNumbers({navigation}) {
 
   return (
     <>
+    <LinearGradient colors={colorArray[(numberPressed-1)%12]} style={{flex:1}}>
       <View
         style={[
           styles.container,
@@ -92,9 +93,9 @@ export default function CountNumbers({navigation}) {
             flexDirection: 'column',
           },
         ]}>
-
+         
         <View style={{flex:1}}>
-        <LinearGradient colors={colorArray[2]} style={{flex:1}}>
+       
               
         <Button onPress={()=>navigation.goBack()} style={{alignSelf:"flex-start"}}
         icon={({ size, color }) => (
@@ -105,24 +106,17 @@ export default function CountNumbers({navigation}) {
         )}
         />
 
-      <Button onPress={()=>Speech.speak("1")} style={{alignSelf:"flex-start"}}
-        icon={({ size, color }) => (
-          <Text>HELLO</Text>
-        )}
-        />
-
-
       <View style={{flex:3,flexDirection:'row'}}>
           <View style={{flex:2}}><Text style={styles.bigNumberText}>{numberPressed}</Text></View>
-          <View style={{flex:3,flexDirection:'row',flexWrap:'wrap',backgroundColor:'white', justifyContent: 'center',alignContent:'center' }}>
+          <View style={{flex:3,flexDirection:'row',flexWrap:'wrap', justifyContent: 'center',alignContent:'center' }}>
           {[...Array(numberPressed)].map((x, i) =>
             
             
-              <Image source={require('../../assets/images/numbers/reddot-removebg-preview.png')}/>
+              <Image style={{height:100,width:100}} source={require('../../assets/images/numbers/duck-removebg-preview.png')}/>
                      )}
           </View>
       </View>
-      <View style={{flex:1,backgroundColor:'red'}}>
+      <View style={{flex:1}}>
         <ScrollView horizontal style={{ flex: 4, flexDirection: 'row',alignContent:'center'}}>
           {[...Array(maxNumber)].map((x, i) =>
             <TouchableOpacity onPress={() => playSound(i + 1)} style={styles.myCard}>
@@ -134,9 +128,10 @@ export default function CountNumbers({navigation}) {
           )}
         </ScrollView>
         </View>
-        </LinearGradient>
+        
         </View>
-      </View>
+        
+      </View></LinearGradient>
     </>
   );
 };

@@ -30,7 +30,7 @@ export default function NumberQuiz({navigation}) {
     if(isCorrectNumberPlayed(arg)){
         await sound[arg-1].playAsync();
         sound[arg-1].setPositionAsync(0);
-        if(arg==1){
+        if(arg==10){
           //alert('Congratulations');
           setVisible(true)
           setTimeout(() => {
@@ -125,7 +125,6 @@ export default function NumberQuiz({navigation}) {
             flexDirection: 'column',
           },
         ]}>
-
         <ImageBackground style={{flex:1}} resizeMode="cover" source={require('../../assets/images/gif/108109-moving-grass.gif')}>
         <Button onPress={()=>navigation.goBack()} style={{alignSelf:"flex-start"}}
         icon={({ size, color }) => (
@@ -136,8 +135,11 @@ export default function NumberQuiz({navigation}) {
         )}
         />
         
-        <View style={{ flex: 4, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center',alignContent:'center' }}>
-          <NumberItem></NumberItem>
+        <View style={{ flex: 1 }}>
+          <View style={{flex:1,justifyContent:'center',alignItems:'center'}}><Text style={{fontFamily:'Rancho_400Regular',fontSize:40,color:'red'}}>Press In Sequence</Text></View>
+          <View style={{flex:4,flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center',alignContent:'center'}}>
+            <NumberItem></NumberItem>
+          </View>
         </View>
 
         </ImageBackground>
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
   },
   myCard: { margin: 20, alignItems: 'center', justifyContent: 'center' },
   numberText: {
-    fontSize: 50, color: 'white', fontWeight: '900'
+    fontSize: 50, color: 'white', fontWeight: '900',
   },
   //grad:{backgroundImage: linearGradient('red', 'yellow')},
   tinyLogo: {
