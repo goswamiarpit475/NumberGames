@@ -1,6 +1,6 @@
 //import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
-import { TouchableOpacity,StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
+import { TouchableOpacity,StyleSheet, Text, View, Image, ImageBackground,Vibration } from 'react-native';
 
 import * as Font from 'expo-font';
 
@@ -19,7 +19,7 @@ export default function NumberQuiz({navigation}) {
   // });
   
   const maxNumber = 10;
- var  nextNumberToBePlayed=1;
+  var  nextNumberToBePlayed=1;
 
   async function playSound(arg) {
     if(isCorrectNumberPlayed(arg)){
@@ -44,6 +44,7 @@ export default function NumberQuiz({navigation}) {
       nextNumberToBePlayed++;
       return true;
     }
+    Vibration.vibrate(100);
     return false;
 
   }
