@@ -155,6 +155,7 @@ export default function CountNumbers({ navigation }) {
                   <Image
                     style={{ height: 100, width: 100 }}
                     source={require("../../assets/images/numbers/duck-removebg-preview.png")}
+                    key={i}
                   />
                 ))}
               </View>
@@ -172,12 +173,16 @@ export default function CountNumbers({ navigation }) {
                   <TouchableOpacity
                     onPress={() => playSound(i + 1)}
                     style={styles.myCard}
+                    key={i}
                   >
                     <LinearGradient
                       colors={colorArray[i % 12]}
                       style={styles.CircleShape}
+                      key={i}
                     >
-                      <Text style={styles.numberText}>{i + 1}</Text>
+                      <Text style={styles.numberText} key={i}>
+                        {i + 1}
+                      </Text>
                     </LinearGradient>
                   </TouchableOpacity>
                 ))}

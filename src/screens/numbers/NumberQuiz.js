@@ -20,16 +20,13 @@ import ModalPopUp from "./ModalPopUp";
 import CustomDialog from "./CustomDialog";
 import { setStatusBarNetworkActivityIndicatorVisible } from "expo-status-bar";
 
-const NumberItem = ({ maxNumber, playSound, array }) => {
-  console.log("in number item");
-  console.log(maxNumber, JSON.stringify(array));
+const NumberItem = React.memo(({ data }) => {
+  //console.log(data);
   const theme = useTheme();
-  const randNumber = Math.floor(Math.random() * maxNumber);
   const listItem = ({ item, index }) => {
-    console.log("item.value-" + item.value);
     return (
       <TouchableOpacity
-        onPress={() => playSound(item.value + 1)}
+        onPress={() => data.playSound(item.value + 1)}
         style={styles.myCard}
       >
         <LinearGradient
@@ -48,69 +45,50 @@ const NumberItem = ({ maxNumber, playSound, array }) => {
         alignItems: "center",
       }}
       numColumns={6}
-      data={array}
+      data={data.array}
       renderItem={listItem}
       keyExtractor={(item) => item.key.toString()}
     />
   );
-};
-
-const DialogModal = ({ isVisible }) => {
-  const [visible, setVisible] = React.useState(isVisible);
-  if (visible == true) {
-    setTimeout(() => {
-      setVisible(false);
-      //isVisible = false;
-    }, 3000);
-  }
-  return (
-    visible && (
-      <CustomDialog
-        visible={visible}
-        setVisible={setVisible}
-        textToShow="Congratulations"
-      />
-    )
-  );
-};
+});
 
 export default function NumberQuiz({ navigation }) {
   const [sound, setSound] = React.useState();
-
-  //const [nextNumberToBePlayed, setNextNumberToBePlayed] = React.useState(1);
+  const [currentNumber, setCurrentNumber] = React.useState(1);
+  const [visible, setVisible] = React.useState(false);
   const [array, setArray] = React.useState([]);
   const [reload, setReload] = React.useState(true);
-  // const [fontsLoaded] = useFonts({
-  //   'Mouse-Font': require('./assets/fonts/Mousie.ttf'),
-  // });
-
   const maxNumber = 10;
-  var nextNumberToBePlayed = 1;
-  var isVisible = false;
-  async function playSound(arg) {
-    if (isCorrectNumberPlayed(arg)) {
-      console.log("playing--" + arg);
-      sound[arg - 1].setPositionAsync(0);
-      await sound[arg - 1].playAsync();
-      if (arg == 10) {
-        //alert('Congratulations');
-        //setVisible(true);
-        isVisible = true;
 
-        //setArray([]);
-        //setNextNumberToBePlayed(1);
-        nextNumberToBePlayed++;
-        setReload(!reload);
+  const playSound = async (arg) => {
+    //console.log(arg);
+    //console.log(sound);
+    const play = async () => {
+      console.log("playing--" + arg);
+      const index = arg - 1;
+      sound[index].setPositionAsync(0);
+      await sound[index].playAsync();
+    };
+    if (isCorrectNumberPlayed(arg)) {
+      await play();
+      if (arg == 10) {
+        setVisible(true);
+        setTimeout(function myStopFunction() {
+          setVisible(false);
+          setCurrentNumber(1);
+          setReload(!reload);
+        }, 3000);
+      } else {
+        setCurrentNumber(currentNumber + 1);
       }
+      console.log(`current numbr increment${currentNumber}`);
     } else {
       console.log("wrong number pressed" + arg);
     }
-  }
+  };
 
   function isCorrectNumberPlayed(numberPlayed) {
-    if (numberPlayed == nextNumberToBePlayed) {
-      //nextNumberToBePlayed++;
-      if (nextNumberToBePlayed < 10) nextNumberToBePlayed++; //setNextNumberToBePlayed(nextNumberToBePlayed + 1);
+    if (numberPlayed == currentNumber) {
       return true;
     }
     Vibration.vibrate(100);
@@ -202,11 +180,19 @@ export default function NumberQuiz({ navigation }) {
           sound[9].unloadAsync();
         }
       : undefined;
-  }, []);
-
+  }, [sound]);
+  const dataProp = React.useMemo(
+    () => ({
+      maxNumber: 10,
+      array: array,
+      playSound: playSound,
+    }),
+    [array, playSound]
+  );
   return (
     <>
-      <DialogModal isVisible={isVisible} />
+      {visible && <CustomDialog />}
+
       <View
         style={[
           styles.container,
@@ -247,7 +233,7 @@ export default function NumberQuiz({ navigation }) {
                   color: "red",
                 }}
               >
-                Press 1
+                Press {currentNumber}
               </Text>
             </View>
             <View
@@ -259,11 +245,7 @@ export default function NumberQuiz({ navigation }) {
                 alignContent: "center",
               }}
             >
-              <NumberItem
-                maxNumber={maxNumber}
-                playSound={playSound}
-                array={array}
-              ></NumberItem>
+              <NumberItem data={dataProp} />
             </View>
           </View>
         </ImageBackground>
