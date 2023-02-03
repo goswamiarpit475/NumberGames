@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "NumberGames",
+    "name": "123 Kids",
     "slug": "NumberGames",
     "version": "1.0.0",
     "orientation": "landscape",
@@ -8,6 +8,7 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
+      "orientation":"landscape",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

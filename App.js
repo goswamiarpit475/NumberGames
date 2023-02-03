@@ -8,6 +8,7 @@ import CountNumbers from './src/screens/numbers/CountNumbers';
 import {HomeScreen} from './src/screens/HomeScreen';
 import {  Provider as PaperProvider,MD3LightTheme,Text } from 'react-native-paper';
 import { useFonts, Rancho_400Regular } from '@expo-google-fonts/rancho'; 
+import * as SplashScreen from 'expo-splash-screen';
 
 
 const Stack = createNativeStackNavigator();
@@ -18,6 +19,25 @@ const [appReady,setAppReady]=React.useState(false);
     Rancho_400Regular,
   });
  React.useEffect( () => {
+  async function prepare() {
+    try {
+      // Pre-load fonts, make any API calls you need to do here
+      //await Font.loadAsync(Entypo.font);
+      // Artificially delay for two seconds to simulate a slow loading
+      // experience. Please remove this if you copy and paste the code!
+      await new Promise(resolve => setTimeout(resolve, 5000));
+    } catch (e) {
+      console.warn(e);
+    } finally {
+      // Tell the application to render
+      //setAppIsReady(true);
+    }
+  }
+
+  prepare();
+
+
+
     if (fontsLoaded) {
       setAppReady(true);
     }
