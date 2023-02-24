@@ -11,14 +11,11 @@ import {
   FlatList,
 } from "react-native";
 
-import * as Font from "expo-font";
-
 import { Audio } from "expo-av";
 import { LinearGradient } from "expo-linear-gradient";
 import { Button, useTheme } from "react-native-paper";
-import ModalPopUp from "./ModalPopUp";
 import CustomDialog from "./CustomDialog";
-import { setStatusBarNetworkActivityIndicatorVisible } from "expo-status-bar";
+import * as Speech from "expo-speech";
 
 const NumberItem = React.memo(({ data }) => {
   //console.log(data);
@@ -91,6 +88,7 @@ export default function NumberQuiz({ navigation }) {
     if (numberPlayed == currentNumber) {
       return true;
     }
+    Speech.speak("Press " + currentNumber);
     Vibration.vibrate(100);
     return false;
   }
@@ -219,23 +217,17 @@ export default function NumberQuiz({ navigation }) {
           />
 
           <View style={{ flex: 1 }}>
-            <View
+            <Text
               style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
+                fontFamily: "Rancho_400Regular",
+                fontSize: 60,
+                color: "red",
+                alignSelf: "center",
               }}
             >
-              <Text
-                style={{
-                  fontFamily: "Rancho_400Regular",
-                  fontSize: 60,
-                  color: "red",
-                }}
-              >
-                Press {currentNumber}
-              </Text>
-            </View>
+              Press {currentNumber}
+            </Text>
+
             <View
               style={{
                 flex: 4,
