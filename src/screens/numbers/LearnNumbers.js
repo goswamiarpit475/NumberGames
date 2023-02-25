@@ -1,4 +1,3 @@
-//import { StatusBar } from 'expo-status-bar';
 import * as React from "react";
 import {
   TouchableOpacity,
@@ -9,16 +8,11 @@ import {
   ImageBackground,
 } from "react-native";
 
-import * as Font from "expo-font";
-
 import { Audio } from "expo-av";
 import { LinearGradient } from "expo-linear-gradient";
 import { Button } from "react-native-paper";
 export default function LearnNumbers({ navigation }) {
   const [sound, setSound] = React.useState();
-  // const [fontsLoaded] = useFonts({
-  //   'Mouse-Font': require('./assets/fonts/Mousie.ttf'),
-  // });
   const colorArray = [
     ["#ff4da9", "#ffff66"],
     ["#ee9ca7", "#ffdde1"],
